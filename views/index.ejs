@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <title>test Page</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>크롤링 페이지입니다.</h1>
+        <form action="http://localhost:8000/crawling/id" method="POST" class="actionLink">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Url Address</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Crawling Page Url" name="url">
+                <small id="emailHelp" class="form-text text-muted">크롤링을 위한 URL을 입력해주세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Tag Name</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Tag Name" name="tag">
+                <small id="emailHelp" class="form-text text-muted">크롤링을 위한 Tag 이름을 입력해주세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Tag Property</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Tag ID" name="tag_property">
+                <small id="emailHelp" class="form-text text-muted">크롤링을 위한 Tag ID를 입력해주세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Example select</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="op">
+                  <option value="id" selected>id</option>
+                  <option value="class">class</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+<script>
+    const selectElement = document.querySelector('#exampleFormControlSelect1');
+
+    selectElement.addEventListener('change', (e) => {
+        const actionLink = document.querySelector('.actionLink');
+        actionLink.action = `http://localhost:8000/crawling/${e.target.value}`;
+    });
+</script>
+
+</html>
