@@ -31,6 +31,8 @@ def userFun(property_type) :
     db = client.crawling_list
     collection = db.crawlings
 
+    ipLog = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+
     url, tag, tag_property = request.form['url'], request.form['tag'], request.form['tag_property']
 
     if url is None or tag is None or tag_property is None :
@@ -43,7 +45,7 @@ def userFun(property_type) :
     else :
         result = crawlingFunId(url, tag, tag_property)
 
-    data = {f'{tag_property}' : f'{result}'}
+    data = {f'{tag_property}' : f'{result}', 'ip' : ipLog }
 
     insertData = collection.insert_one(data).inserted_id
     client.close()
