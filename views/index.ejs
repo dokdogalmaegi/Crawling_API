@@ -36,6 +36,12 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <div class="list-group" style="margin-top: 50px;">
+            <a href="#" class="list-group-item list-group-item-action active">사용기록</a>
+            <% crawlingList.forEach(data => { %>
+                <a href="#" class="list-group-item list-group-item-action"><%=data %></a>
+            <% }) %>
+        </div>
     </div>
 </body>
 <script>

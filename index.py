@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import pymongo as mongo
 import requests
 from bs4 import BeautifulSoup
 
@@ -19,7 +20,6 @@ def crawlingFunClass(url, tag, tag_property) :
     result = soup.findAll(f'{tag}', attrs={'class' : f'{tag_property}'})
 
     return result[0].text
-    
 
 app = Flask(__name__)
 
@@ -27,16 +27,27 @@ app.config['JSON_AS_ASCII'] = False
 
 @app.route('/crawling/<property_type>', methods=['POST'])
 def userFun(property_type) :
+    client = mongo.MongoClient('mongodb://localhost:27017/')
+    db = client.crawling_list
+    collection = db.crawlings
+
     url, tag, tag_property = request.form['url'], request.form['tag'], request.form['tag_property']
+
     if url is None or tag is None or tag_property is None :
         return '값이 누락되었습니다.'
-    print(f'property : {property_type}')
+
     result = ''
+
     if (property_type == 'class') :
         result = crawlingFunClass(url, tag, tag_property)
     else :
         result = crawlingFunId(url, tag, tag_property)
-    print(type(result))
+
+    data = {f'{tag_property}' : f'{result}'}
+
+    insertData = collection.insert_one(data).inserted_id
+    client.close()
+
     return jsonify(crawlingData=result)
 
 if __name__ == '__main__' :
